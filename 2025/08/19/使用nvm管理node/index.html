@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>使用nvm管理node.js | 欢迎</title>
+
+    <meta name="author" content="Sun Yi" />
+    <meta name="description" content="This is SunYi の blog" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/logo.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+    <!-- 在这里添加CSS样式 -->
+    <!-- <style>
+        pre {
+          white-space: pre-wrap; /* 保持空白符序列，但是会在必要时进行换行 */
+          overflow-x: auto;    /* 水平方向上的内容超出时显示滚动条 */
+          font-size: 14px; /* 默认字体大小 */
+        }
+
+        /* 桌面视图的样式 */
+        @media screen and (min-width: 601px) {
+          pre {
+            max-width: 450px; /* 设置最大宽度为450px */
+            font-size: 16px; /* 可以增大字体大小以适应桌面屏幕 */
+          }
+        }
+
+        /* 小屏幕设备（如手机）的样式 */
+        @media screen and (max-width: 600px) {
+          pre {
+            max-width: 100%; /* 设置最大宽度为100%，以适应小屏幕 */
+            font-size: 14px; /* 可以减小字体大小以适应屏幕 */
+          }
+        }
+    </style> -->
+
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>欢迎</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;欢迎</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>使用nvm管理node.js</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/19
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%8A%80%E6%9C%AF/" style="color: #ffa2c4">
+                    技术
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="大纲"><a href="#大纲" class="headerlink" title="大纲"></a>大纲</h2><p>1.nvm、node.js、npm–what why</p>
+<span id="more"></span>
+<p>2.安装nvm</p>
+<p>3.使用nvm<br>    <strong>遇到的问题</strong><br>    1.nvm安装node.js失败<br>    2.识别不出nvm<br>    3.使用镜像npm下载依赖（两种方式，推荐pnpm）</p>
+<h2 id="一、nvm、node-js、npm–what-why"><a href="#一、nvm、node-js、npm–what-why" class="headerlink" title="一、nvm、node.js、npm–what why"></a>一、nvm、node.js、npm–what why</h2><p>node.js:类似于Java里面的JDK，是JavaScript运行的环境（在后台而非浏览器中运行）</p>
+<p>可以用node xx.js 运行JavaScript文件</p>
+<p>npm：类似于maven的概念，一个包管理器，用它来安装程序需要的各种依赖</p>
+<p>nvm：node.js版本更新太快了，导致很多项目构建的时候用的是不同版本的node，对应的API支持也就不一样，为了成功编译和运行，不同的项目就需要使用不同版本的node.js，于是有了nvm，nvm是一个node管理器，自由切换目前使用的node，非常方便</p>
+<h2 id="二、安装nvm"><a href="#二、安装nvm" class="headerlink" title="二、安装nvm"></a>二、安装nvm</h2><p>nvm只支持mac和Linux系统</p>
+<p>对于windows系统名字叫nvm-windows</p>
+<p>地址：<a target="_blank" rel="noopener" href="https://github.com/coreybutler/nvm-windows/releases">https://github.com/coreybutler/nvm-windows/releases</a></p>
+<p>选择：nvm-setup.zip</p>
+<p>具体安装不再赘述，前人已有完备方案：<a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145">window下安装并使用nvm（含卸载node、卸载nvm、全局安装npm）-CSDN博客</a></p>
+<p>值得注意的是安装nvm之前把电脑中已有的node.js删干净，包括node文件、node缓存、环境变量</p>
+<p>网上搜一下即可<a target="_blank" rel="noopener" href="https://geek-docs.com/javascript/javascript-ask-answer/198_tk_1704331153.html">如何完全卸载Node.js|极客教程</a></p>
+<h2 id="三、使用nvm"><a href="#三、使用nvm" class="headerlink" title="三、使用nvm"></a>三、使用nvm</h2><p>常用命令</p>
+<p>nvm list available 查看可下载的node.js的版本</p>
+<p>nvm install 14.14.0 安装14.14.0版本的node.js</p>
+<p>nvm ls 列出所有下载的node.js</p>
+<p>nvm use 14.14.0 选择14.14.0版本的使用</p>
+<p>node -v 查看当前node.js的版本</p>
+<p>npm -v 查看npm的版本</p>
+<p><strong>遇到的问题</strong><br>    1.nvm安装node.js失败</p>
+<p>​	解决方法：手动下载node.zip</p>
+<p><img src="/./%E4%BD%BF%E7%94%A8nvm%E7%AE%A1%E7%90%86node.assets/image-20250714191802699.png" alt="image-20250714191802699"></p>
+<p>在nvm安装目录下新建v20.18.0目录，把解压的内容移动到这个目录中（确保能直接看到node.exe文件）</p>
+<p>​    2.识别不出nvm</p>
+<p>把nvm.exe所在的目录添加到path环境中</p>
+<p>​    3.使用镜像npm下载依赖（两种方式，推荐pnpm）</p>
+<p>第一种</p>
+<p>把npm默认的镜像改为淘宝镜像： <code>npm config set registry https://registry.npmmirror.com</code></p>
+<p>返回默认镜像：<code>npm config set registry https://registry.npmjs.org/</code></p>
+<p>查看当前镜像：<code>npm config get registry</code></p>
+<pre><code>————————————————
+
+其他镜像：
+
+阿里云 NPM 镜像：https://npm.aliyun.com
+腾讯云 NPM 镜像：https://mirrors.cloud.tencent.com/npm/
+华为云 NPM 镜像：https://mirrors.huaweicloud.com/repository/npm/
+网易 NPM 镜像：https://mirrors.163.com/npm/
+中国科学技术大学开源镜像站：http://mirrors.ustc.edu.cn/
+清华大学开源镜像站：https://mirrors.tuna.tsinghua.edu.cn/
+腾讯，华为，阿里的镜像站基本上比较全
+————————————————
+</code></pre>
+<p>第二种</p>
+<p>pnpm简介（安装pnpm 需要 Node.js 版本 &gt;&#x3D; 18.12）</p>
+<p>pnpm 全称 performant npm，意思为 高性能的 npm。pnpm 由 npm&#x2F;yarn 衍生而来，解决了 npm&#x2F;yarn 内部潜在的 bug，极大的优化了性能，扩展了使用场景。被誉为 最先进的包管理工具。<br>特点：速度快、节约磁盘空间、支持 monorepo、安全性高、创建一个非扁平的 node_modules 目录。pnpm 相比较于 yarn&#x2F;npm 这两个常用的包管理工具在性能上也有了极大的提升，根据目前官方提供的 benchmark 数据可以看出在一些综合场景下比 npm&#x2F;yarn 快了大概两倍。</p>
+<p>pnpm安装</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yimeng_Sama/article/details/143824121">Node.js | pnpm下载安装与环境配置-CSDN博客</a></p>
+<p>1.安装pnpm</p>
+<p><code>npm install -g pnpm</code></p>
+<p>2.配置pnpm的镜像</p>
+<p><code>pnpm config set registry https://registry.npmmirror.com</code></p>
+<p>3.修改目录</p>
+<pre><code class="bash"># 允许设置全局安装包的 bin 文件的目标目录。
+
+pnpm config set global-bin-dir &quot;D:\pnpm-store&quot;
+
+# 包元数据缓存的位置。
+
+pnpm config set cache-dir &quot;D:\pnpm-store\pnpm-cache&quot;
+
+# pnpm 创建的当前仅由更新检查器使用的 pnpm-state.json 文件的目录。
+
+pnpm config set state-dir &quot;D:\pnpm-store\pnpm-state&quot;
+
+# 指定储存全局依赖的目录。
+
+pnpm config set global-dir &quot;D:\pnpm-store\global&quot;
+
+# 所有包被保存在磁盘上的位置。
+
+#（可选，以下这条命令可以选择不执行也是OK的）
+pnpm config set store-dir &quot;D:\pnpm-store\pnpm-store&quot;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 欢迎
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Sun Yi
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

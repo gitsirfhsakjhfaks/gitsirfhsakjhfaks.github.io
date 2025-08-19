@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Github Action自动化部署Hexo静态博客 | 欢迎</title>
+
+    <meta name="author" content="Sun Yi" />
+    <meta name="description" content="This is SunYi の blog" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/logo.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+    <!-- 在这里添加CSS样式 -->
+    <!-- <style>
+        pre {
+          white-space: pre-wrap; /* 保持空白符序列，但是会在必要时进行换行 */
+          overflow-x: auto;    /* 水平方向上的内容超出时显示滚动条 */
+          font-size: 14px; /* 默认字体大小 */
+        }
+
+        /* 桌面视图的样式 */
+        @media screen and (min-width: 601px) {
+          pre {
+            max-width: 450px; /* 设置最大宽度为450px */
+            font-size: 16px; /* 可以增大字体大小以适应桌面屏幕 */
+          }
+        }
+
+        /* 小屏幕设备（如手机）的样式 */
+        @media screen and (max-width: 600px) {
+          pre {
+            max-width: 100%; /* 设置最大宽度为100%，以适应小屏幕 */
+            font-size: 14px; /* 可以减小字体大小以适应屏幕 */
+          }
+        }
+    </style> -->
+
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>欢迎</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;欢迎</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Github Action自动化部署Hexo静态博客</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/6
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%8A%80%E6%9C%AF/" style="color: #00bcd4">
+                    技术
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="一-为什么要用自动化部署"><a href="#一-为什么要用自动化部署" class="headerlink" title="一 为什么要用自动化部署"></a>一 为什么要用自动化部署</h2><p>之前上传文章使用<code>hexo d（deploy）</code>命令只是把本地生成的静态文件上传到了远程仓库中，但是自己写的博客文章、博客主题源码的修改都保留在本地<span id="more"></span></p>
+<p>如果你需要通过远程仓库查看自己写的文章，并且 希望在不同设备（例如平板、手机）上编辑文章并推送到远程仓库，那么就必须避免对电脑环境的依赖</p>
+<p>在电脑环境中，必须先进入博客文件夹的终端，输入以下命令：</p>
+<pre><code class="bash">hexo clean &amp;&amp; hexo g &amp;&amp; hexo deploy  *# 部署静态文件* 
+
+git add . &amp;&amp; git commit -m &quot;更新&quot; &amp;&amp; git push  *# 手动同步源码*
+</code></pre>
+<p>非常麻烦，输入多个命令，且离开电脑环境就不能上传文章（hexo命令都没有）</p>
+<h2 id="二-Github-Action最终实现了什么"><a href="#二-Github-Action最终实现了什么" class="headerlink" title="二 Github Action最终实现了什么"></a>二 Github Action最终实现了什么</h2><p>只需在每次写完文章后推送到远程仓库即可，或用命令<code>git add . / git commit -m &quot;&quot; / git push origin main</code><br>不需要每次输入命令hexo clean hexo g hexo d，<br>也不需要产生对环境的依赖，例如安装nodejs，hexo主题依赖等，在不同电脑上也能轻松编辑发布文章<br>一般发布流程：vscode编辑文章，一键推送，自动部署<br>如果没下载vscode，也能配合GitHub dev 在线编辑器，代替命令行，实现“浏览器写文章-&gt;一键推送-&gt;自动部署”的流程，<br>这对于<strong>临时在他人电脑上更新博客的场景</strong>、<strong>临时移动端编辑发布文章的场景</strong>非常有用</p>
+<p>总的来说，Github Action让发布文章的流程变得简单和灵活！</p>
+<h2 id="三-认识Github-Action"><a href="#三-认识Github-Action" class="headerlink" title="三 认识Github Action"></a>三 认识Github Action</h2><p>概念：Github Action是一个自动化流程工具<br>原理：当代码仓库发生特定事件（如 git push、创建 Issue 等）时，自动在云端启动一台临时虚拟机，执行你预定义的一系列命令（如安装依赖、编译代码、部署网站）。</p>
+<h2 id="四-现在发布一个文章需要做什么动作？"><a href="#四-现在发布一个文章需要做什么动作？" class="headerlink" title="四 现在发布一个文章需要做什么动作？"></a>四 现在发布一个文章需要做什么动作？</h2><h3 id="两种方式"><a href="#两种方式" class="headerlink" title="两种方式"></a>两种方式</h3><p>第一种：网页或者app登录你的Github，直接在对应的源码的位置修改（&#x2F;source&#x2F;_posts），然后提交</p>
+<p>第二种：电脑端，找到关联远程仓库的本地仓库，在本地的&#x2F;source&#x2F;_posts处修改发布文章，然后提交，此时会把<strong>改动提交到私有的源码仓库</strong>，然后<strong>git action感受到提交后</strong>会自动把对文章的改动同步到公开的另一个仓库中去</p>
+<h2 id="五-参考和感谢文章"><a href="#五-参考和感谢文章" class="headerlink" title="五 参考和感谢文章"></a>五 参考和感谢文章</h2><blockquote>
+<p>链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_50082325/article/details/144447046">【Hexo】博客自动部署</a></p>
+</blockquote>
+<p>完毕！</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 欢迎
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Sun Yi
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
